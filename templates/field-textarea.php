@@ -1,5 +1,7 @@
 <?php
 /**
+ * Variables passed via $args to load_template().
+ *
  * @var string $id
  * @var string $name
  * @var string $value

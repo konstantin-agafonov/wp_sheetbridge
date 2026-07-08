@@ -1,5 +1,7 @@
 <?php
 /**
+ * Variables passed via $args to load_template().
+ *
  * @var string $last_sync_time
  * @var string $last_sync_status
  * @var string $spreadsheet_id

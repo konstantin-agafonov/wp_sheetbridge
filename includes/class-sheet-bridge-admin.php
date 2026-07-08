@@ -47,7 +47,21 @@ class SheetBridge_Admin {
 		$project_id           = get_post_meta( $post->ID, '_sb_project_id', true );
 		$service_account_json = get_post_meta( $post->ID, '_sb_service_account_json', true );
 
-		include SHEETBRIDGE_PLUGIN_DIR . 'templates/meta-box-connection.php';
+		load_template(
+			SHEETBRIDGE_PLUGIN_DIR . 'templates/meta-box-connection.php',
+			false,
+			array(
+				'spreadsheet_id'       => $spreadsheet_id,
+				'spreadsheet_url'      => $spreadsheet_url,
+				'sheet_name'           => $sheet_name,
+				'api_key'              => $api_key,
+				'client_email'         => $client_email,
+				'private_key'          => $private_key,
+				'private_key_id'       => $private_key_id,
+				'project_id'           => $project_id,
+				'service_account_json' => $service_account_json,
+			)
+		);
 	}
 
 	public function status_box_callback( $post ): void {
@@ -56,7 +70,16 @@ class SheetBridge_Admin {
 		$spreadsheet_id   = get_post_meta( $post->ID, '_sb_spreadsheet_id', true );
 		$sheet_name       = get_post_meta( $post->ID, '_sb_sheet_name', true ) ?: 'Sheet1';
 
-		include SHEETBRIDGE_PLUGIN_DIR . 'templates/meta-box-status.php';
+		load_template(
+			SHEETBRIDGE_PLUGIN_DIR . 'templates/meta-box-status.php',
+			false,
+			array(
+				'last_sync_time'   => $last_sync_time,
+				'last_sync_status' => $last_sync_status,
+				'spreadsheet_id'   => $spreadsheet_id,
+				'sheet_name'       => $sheet_name,
+			)
+		);
 	}
 
 	public function save_meta_boxes( int $post_id ): void {

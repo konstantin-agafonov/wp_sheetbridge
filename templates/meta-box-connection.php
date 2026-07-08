@@ -1,6 +1,7 @@
 <?php
 /**
- * @var int    $post_id
+ * Variables passed via $args to load_template().
+ *
  * @var string $spreadsheet_id
  * @var string $spreadsheet_url
  * @var string $sheet_name
@@ -21,26 +22,29 @@ $template_dir = SHEETBRIDGE_PLUGIN_DIR . 'templates';
 <table class="form-table">
 	<tbody>
 		<?php
-		$id          = 'sb_spreadsheet_id';
-		$name        = 'sb_spreadsheet_id';
-		$value       = $spreadsheet_id;
-		$label       = __( 'Spreadsheet ID', 'sheetbridge' );
-		$description = __( 'The ID from your Google Sheets URL (the long string between /d/ and /edit).', 'sheetbridge' );
-		include $template_dir . '/field-text.php';
+		load_template( $template_dir . '/field-text.php', false, array(
+			'id'          => 'sb_spreadsheet_id',
+			'name'        => 'sb_spreadsheet_id',
+			'value'       => $spreadsheet_id,
+			'label'       => __( 'Spreadsheet ID', 'sheetbridge' ),
+			'description' => __( 'The ID from your Google Sheets URL (the long string between /d/ and /edit).', 'sheetbridge' ),
+		) );
 
-		$id          = 'sb_spreadsheet_url';
-		$name        = 'sb_spreadsheet_url';
-		$value       = $spreadsheet_url;
-		$label       = __( 'Spreadsheet URL', 'sheetbridge' );
-		$description = __( 'Full URL to the Google Sheet (optional, can be used instead of Spreadsheet ID).', 'sheetbridge' );
-		include $template_dir . '/field-text.php';
+		load_template( $template_dir . '/field-text.php', false, array(
+			'id'          => 'sb_spreadsheet_url',
+			'name'        => 'sb_spreadsheet_url',
+			'value'       => $spreadsheet_url,
+			'label'       => __( 'Spreadsheet URL', 'sheetbridge' ),
+			'description' => __( 'Full URL to the Google Sheet (optional, can be used instead of Spreadsheet ID).', 'sheetbridge' ),
+		) );
 
-		$id          = 'sb_sheet_name';
-		$name        = 'sb_sheet_name';
-		$value       = $sheet_name;
-		$label       = __( 'Sheet Name', 'sheetbridge' );
-		$description = __( 'The name of the sheet tab (e.g. Sheet1, Sheet2). Default: Sheet1', 'sheetbridge' );
-		include $template_dir . '/field-text.php';
+		load_template( $template_dir . '/field-text.php', false, array(
+			'id'          => 'sb_sheet_name',
+			'name'        => 'sb_sheet_name',
+			'value'       => $sheet_name,
+			'label'       => __( 'Sheet Name', 'sheetbridge' ),
+			'description' => __( 'The name of the sheet tab (e.g. Sheet1, Sheet2). Default: Sheet1', 'sheetbridge' ),
+		) );
 		?>
 	</tbody>
 </table>
@@ -52,12 +56,13 @@ $template_dir = SHEETBRIDGE_PLUGIN_DIR . 'templates';
 <table class="form-table">
 	<tbody>
 		<?php
-		$id          = 'sb_api_key';
-		$name        = 'sb_api_key';
-		$value       = $api_key;
-		$label       = __( 'Google API Key', 'sheetbridge' );
-		$description = __( 'Google Cloud API key (for public sheets / read-only access).', 'sheetbridge' );
-		include $template_dir . '/field-text.php';
+		load_template( $template_dir . '/field-text.php', false, array(
+			'id'          => 'sb_api_key',
+			'name'        => 'sb_api_key',
+			'value'       => $api_key,
+			'label'       => __( 'Google API Key', 'sheetbridge' ),
+			'description' => __( 'Google Cloud API key (for public sheets / read-only access).', 'sheetbridge' ),
+		) );
 		?>
 	</tbody>
 </table>
@@ -67,41 +72,46 @@ $template_dir = SHEETBRIDGE_PLUGIN_DIR . 'templates';
 <table class="form-table">
 	<tbody>
 		<?php
-		$id          = 'sb_service_account_json';
-		$name        = 'sb_service_account_json';
-		$value       = $service_account_json;
-		$label       = __( 'Service Account JSON', 'sheetbridge' );
-		$rows        = 8;
-		$description = __( 'Paste the entire service account JSON key file contents here. Fills in the fields below automatically on save.', 'sheetbridge' );
-		include $template_dir . '/field-textarea.php';
+		load_template( $template_dir . '/field-textarea.php', false, array(
+			'id'          => 'sb_service_account_json',
+			'name'        => 'sb_service_account_json',
+			'value'       => $service_account_json,
+			'label'       => __( 'Service Account JSON', 'sheetbridge' ),
+			'rows'        => 8,
+			'description' => __( 'Paste the entire service account JSON key file contents here. Fills in the fields below automatically on save.', 'sheetbridge' ),
+		) );
 
-		$id    = 'sb_client_email';
-		$name  = 'sb_client_email';
-		$value = $client_email;
-		$label = __( 'Client Email', 'sheetbridge' );
-		$description = '';
-		include $template_dir . '/field-text.php';
+		load_template( $template_dir . '/field-text.php', false, array(
+			'id'    => 'sb_client_email',
+			'name'  => 'sb_client_email',
+			'value' => $client_email,
+			'label' => __( 'Client Email', 'sheetbridge' ),
+			'description' => '',
+		) );
 
-		$id          = 'sb_private_key';
-		$name        = 'sb_private_key';
-		$value       = $private_key;
-		$label       = __( 'Private Key', 'sheetbridge' );
-		$description = '';
-		include $template_dir . '/field-textarea.php';
+		load_template( $template_dir . '/field-textarea.php', false, array(
+			'id'          => 'sb_private_key',
+			'name'        => 'sb_private_key',
+			'value'       => $private_key,
+			'label'       => __( 'Private Key', 'sheetbridge' ),
+			'description' => '',
+		) );
 
-		$id    = 'sb_private_key_id';
-		$name  = 'sb_private_key_id';
-		$value = $private_key_id;
-		$label = __( 'Private Key ID', 'sheetbridge' );
-		$description = '';
-		include $template_dir . '/field-text.php';
+		load_template( $template_dir . '/field-text.php', false, array(
+			'id'    => 'sb_private_key_id',
+			'name'  => 'sb_private_key_id',
+			'value' => $private_key_id,
+			'label' => __( 'Private Key ID', 'sheetbridge' ),
+			'description' => '',
+		) );
 
-		$id    = 'sb_project_id';
-		$name  = 'sb_project_id';
-		$value = $project_id;
-		$label = __( 'Project ID', 'sheetbridge' );
-		$description = '';
-		include $template_dir . '/field-text.php';
+		load_template( $template_dir . '/field-text.php', false, array(
+			'id'    => 'sb_project_id',
+			'name'  => 'sb_project_id',
+			'value' => $project_id,
+			'label' => __( 'Project ID', 'sheetbridge' ),
+			'description' => '',
+		) );
 		?>
 	</tbody>
 </table>
