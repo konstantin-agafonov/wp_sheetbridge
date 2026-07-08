@@ -37,123 +37,17 @@ class SheetBridge_Admin {
 	public function connection_box_callback( $post ): void {
 		wp_nonce_field( 'sheetbridge_connection_box', 'sheetbridge_connection_box_nonce' );
 
-		$spreadsheet_id  = get_post_meta( $post->ID, '_sb_spreadsheet_id', true );
-		$spreadsheet_url = get_post_meta( $post->ID, '_sb_spreadsheet_url', true );
-		$sheet_name      = get_post_meta( $post->ID, '_sb_sheet_name', true ) ?: 'Sheet1';
-		$api_key         = get_post_meta( $post->ID, '_sb_api_key', true );
-		$client_email    = get_post_meta( $post->ID, '_sb_client_email', true );
-		$private_key     = get_post_meta( $post->ID, '_sb_private_key', true );
-		$private_key_id  = get_post_meta( $post->ID, '_sb_private_key_id', true );
-		$project_id      = get_post_meta( $post->ID, '_sb_project_id', true );
+		$spreadsheet_id       = get_post_meta( $post->ID, '_sb_spreadsheet_id', true );
+		$spreadsheet_url      = get_post_meta( $post->ID, '_sb_spreadsheet_url', true );
+		$sheet_name           = get_post_meta( $post->ID, '_sb_sheet_name', true ) ?: 'Sheet1';
+		$api_key              = get_post_meta( $post->ID, '_sb_api_key', true );
+		$client_email         = get_post_meta( $post->ID, '_sb_client_email', true );
+		$private_key          = get_post_meta( $post->ID, '_sb_private_key', true );
+		$private_key_id       = get_post_meta( $post->ID, '_sb_private_key_id', true );
+		$project_id           = get_post_meta( $post->ID, '_sb_project_id', true );
 		$service_account_json = get_post_meta( $post->ID, '_sb_service_account_json', true );
-		?>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row">
-						<label for="sb_spreadsheet_id"><?php esc_html_e( 'Spreadsheet ID', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<input type="text" id="sb_spreadsheet_id" name="sb_spreadsheet_id"
-							   value="<?php echo esc_attr( $spreadsheet_id ); ?>" class="regular-text" />
-						<p class="description"><?php esc_html_e( 'The ID from your Google Sheets URL (the long string between /d/ and /edit).', 'sheetbridge' ); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="sb_spreadsheet_url"><?php esc_html_e( 'Spreadsheet URL', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<input type="url" id="sb_spreadsheet_url" name="sb_spreadsheet_url"
-							   value="<?php echo esc_attr( $spreadsheet_url ); ?>" class="regular-text" />
-						<p class="description"><?php esc_html_e( 'Full URL to the Google Sheet (optional, can be used instead of Spreadsheet ID).', 'sheetbridge' ); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="sb_sheet_name"><?php esc_html_e( 'Sheet Name', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<input type="text" id="sb_sheet_name" name="sb_sheet_name"
-							   value="<?php echo esc_attr( $sheet_name ); ?>" class="regular-text" />
-						<p class="description"><?php esc_html_e( 'The name of the sheet tab (e.g. Sheet1, Sheet2). Default: Sheet1', 'sheetbridge' ); ?></p>
-					</td>
-				</tr>
-			</tbody>
-		</table>
 
-		<hr style="margin: 20px 0;" />
-
-		<h3><?php esc_html_e( 'Authentication', 'sheetbridge' ); ?></h3>
-
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row">
-						<label for="sb_api_key"><?php esc_html_e( 'Google API Key', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<input type="text" id="sb_api_key" name="sb_api_key"
-							   value="<?php echo esc_attr( $api_key ); ?>" class="regular-text" />
-						<p class="description"><?php esc_html_e( 'Google Cloud API key (for public sheets / read-only access).', 'sheetbridge' ); ?></p>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<h4><?php esc_html_e( 'Service Account Authentication (recommended for write access)', 'sheetbridge' ); ?></h4>
-
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row">
-						<label for="sb_service_account_json"><?php esc_html_e( 'Service Account JSON', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<textarea id="sb_service_account_json" name="sb_service_account_json"
-								  rows="8" class="large-text code"><?php echo esc_textarea( $service_account_json ); ?></textarea>
-						<p class="description"><?php esc_html_e( 'Paste the entire service account JSON key file contents here. Fills in the fields below automatically on save.', 'sheetbridge' ); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="sb_client_email"><?php esc_html_e( 'Client Email', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<input type="text" id="sb_client_email" name="sb_client_email"
-							   value="<?php echo esc_attr( $client_email ); ?>" class="regular-text" />
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="sb_private_key"><?php esc_html_e( 'Private Key', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<textarea id="sb_private_key" name="sb_private_key"
-								  rows="6" class="large-text code"><?php echo esc_textarea( $private_key ); ?></textarea>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="sb_private_key_id"><?php esc_html_e( 'Private Key ID', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<input type="text" id="sb_private_key_id" name="sb_private_key_id"
-							   value="<?php echo esc_attr( $private_key_id ); ?>" class="regular-text" />
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<label for="sb_project_id"><?php esc_html_e( 'Project ID', 'sheetbridge' ); ?></label>
-					</th>
-					<td>
-						<input type="text" id="sb_project_id" name="sb_project_id"
-							   value="<?php echo esc_attr( $project_id ); ?>" class="regular-text" />
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<?php
+		include SHEETBRIDGE_PLUGIN_DIR . 'templates/meta-box-connection.php';
 	}
 
 	public function status_box_callback( $post ): void {
@@ -161,24 +55,8 @@ class SheetBridge_Admin {
 		$last_sync_status = get_post_meta( $post->ID, '_sb_last_sync_status', true );
 		$spreadsheet_id   = get_post_meta( $post->ID, '_sb_spreadsheet_id', true );
 		$sheet_name       = get_post_meta( $post->ID, '_sb_sheet_name', true ) ?: 'Sheet1';
-		?>
-		<p>
-			<strong><?php esc_html_e( 'Spreadsheet ID:', 'sheetbridge' ); ?></strong><br />
-			<code><?php echo esc_html( $spreadsheet_id ?: '—' ); ?></code>
-		</p>
-		<p>
-			<strong><?php esc_html_e( 'Sheet:', 'sheetbridge' ); ?></strong><br />
-			<?php echo esc_html( $sheet_name ); ?>
-		</p>
-		<p>
-			<strong><?php esc_html_e( 'Last Sync:', 'sheetbridge' ); ?></strong><br />
-			<?php echo esc_html( $last_sync_time ?: __( 'Never', 'sheetbridge' ) ); ?>
-		</p>
-		<p>
-			<strong><?php esc_html_e( 'Status:', 'sheetbridge' ); ?></strong><br />
-			<?php echo esc_html( $last_sync_status ?: __( 'Not synced yet', 'sheetbridge' ) ); ?>
-		</p>
-		<?php
+
+		include SHEETBRIDGE_PLUGIN_DIR . 'templates/meta-box-status.php';
 	}
 
 	public function save_meta_boxes( int $post_id ): void {
@@ -310,7 +188,9 @@ class SheetBridge_Admin {
 				}
 				break;
 		}
-	}	public function add_plugin_action_links( array $links ): array {
+	}
+
+	public function add_plugin_action_links( array $links ): array {
 		$settings_link = '<a href="' . admin_url( 'edit.php?post_type=' . SHEETBRIDGE_CPT_SLUG ) . '">'
 			. __( 'Manage Bridges', 'sheetbridge' ) . '</a>';
 		array_unshift( $links, $settings_link );
