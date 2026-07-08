@@ -11,6 +11,14 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+// WP 7.0 load_template() no longer extracts $args into the template scope.
+if ( isset( $args ) && is_array( $args ) ) {
+	$last_sync_time   = $args['last_sync_time'] ?? '';
+	$last_sync_status = $args['last_sync_status'] ?? '';
+	$spreadsheet_id   = $args['spreadsheet_id'] ?? '';
+	$sheet_name       = $args['sheet_name'] ?? '';
+}
 ?>
 <p>
 	<strong><?php esc_html_e( 'Spreadsheet ID:', 'sheetbridge' ); ?></strong><br />

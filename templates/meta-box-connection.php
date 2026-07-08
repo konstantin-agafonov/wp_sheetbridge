@@ -18,6 +18,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $template_dir = SHEETBRIDGE_PLUGIN_DIR . 'templates';
+
+// WP 7.0 load_template() no longer extracts $args into the template scope.
+// Read all variables explicitly from the $args parameter.
+if ( isset( $args ) && is_array( $args ) ) {
+    $spreadsheet_id       = $args['spreadsheet_id'] ?? '';
+    $spreadsheet_url      = $args['spreadsheet_url'] ?? '';
+    $sheet_name           = $args['sheet_name'] ?? '';
+    $api_key              = $args['api_key'] ?? '';
+    $client_email         = $args['client_email'] ?? '';
+    $private_key          = $args['private_key'] ?? '';
+    $private_key_id       = $args['private_key_id'] ?? '';
+    $project_id           = $args['project_id'] ?? '';
+    $service_account_json = $args['service_account_json'] ?? '';
+}
 ?>
 <table class="form-table">
 	<tbody>
