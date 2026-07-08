@@ -12,6 +12,7 @@ class SheetBridge_CPT {
 		add_action( 'save_post', array( $this, 'save_meta_boxes' ) );
 		add_filter( 'manage_' . SHEETBRIDGE_CPT_SLUG . '_posts_columns', array( $this, 'custom_columns' ) );
 		add_action( 'manage_' . SHEETBRIDGE_CPT_SLUG . '_posts_custom_column', array( $this, 'custom_column_content' ), 10, 2 );
+		add_action( 'admin_footer-edit.php', array( $this, 'inline_id_copy_script' ) );
 		add_action( 'admin_init', array( $this, 'flush_rewrite_rules' ) );
 		add_action( 'after_switch_theme', array( $this, 'force_flush_rewrite_rules' ) );
 	}
@@ -323,6 +324,9 @@ class SheetBridge_CPT {
 		$new_columns = array();
 
 		foreach ( $columns as $key => $value ) {
+			if ( 'title' === $key ) {
+				$new_columns['id'] = __( 'ID', 'sheetbridge' );
+			}
 			$new_columns[ $key ] = $value;
 			if ( 'title' === $key ) {
 				$new_columns['spreadsheet_id'] = __( 'Spreadsheet ID', 'sheetbridge' );
@@ -336,6 +340,11 @@ class SheetBridge_CPT {
 
 	public function custom_column_content( string $column, int $post_id ): void {
 		switch ( $column ) {
+			case 'id':
+				echo '<a href="#" class="sb-copy-id" data-id="' . esc_attr( $post_id ) . '" style="text-decoration:none;color:inherit;">'
+					. esc_html( $post_id ) . '</a>';
+				break;
+
 			case 'spreadsheet_id':
 				$id = get_post_meta( $post_id, '_sb_spreadsheet_id', true );
 				echo '<code>' . esc_html( $id ?: '—' ) . '</code>';
@@ -360,6 +369,51 @@ class SheetBridge_CPT {
 				}
 				break;
 		}
+	}
+
+	public function inline_id_copy_script(): void {
+		$screen = get_current_screen();
+		if ( ! $screen || SHEETBRIDGE_CPT_SLUG !== $screen->post_type || 'edit' !== $screen->base ) {
+			return;
+		}
+		?>
+		<script>
+		function sbShowCopiedNotice( id ) {
+			var notice = document.createElement( 'span' );
+			notice.textContent = 'Value ' + id + ' copied to clipboard';
+			notice.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1d2327;color:#fff;padding:8px 16px;border-radius:4px;z-index:99999;font-size:13px;';
+			document.body.appendChild( notice );
+			setTimeout( function() { notice.remove(); }, 2000 );
+		}
+		function sbCopyFallback( id ) {
+			var ta = document.createElement( 'textarea' );
+			ta.value = id;
+			ta.style.position = 'fixed';
+			ta.style.left = '-9999px';
+			document.body.appendChild( ta );
+			ta.select();
+			document.execCommand( 'copy' );
+			ta.remove();
+			sbShowCopiedNotice( id );
+		}
+		document.addEventListener( 'click', function( e ) {
+			var el = e.target.closest( '.sb-copy-id' );
+			if ( ! el ) return;
+			e.preventDefault();
+			var id = el.getAttribute( 'data-id' );
+			if ( ! id ) return;
+			if ( navigator.clipboard ) {
+				navigator.clipboard.writeText( id ).then( function() {
+					sbShowCopiedNotice( id );
+				} ).catch( function() {
+					sbCopyFallback( id );
+				} );
+			} else {
+				sbCopyFallback( id );
+			}
+		} );
+		</script>
+		<?php
 	}
 
 	public function flush_rewrite_rules(): void {
