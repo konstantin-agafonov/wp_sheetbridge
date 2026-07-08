@@ -48,11 +48,16 @@ The Spreadsheet ID is the long string in your Google Sheets URL between `/d/` an
 
 = How do I set up a service account? =
 
-1. Go to the Google Cloud Console
-2. Create a project and enable the Google Sheets API
-3. Create a service account and download the JSON key
-4. Share your Google Sheet with the service account's client email
-5. Paste the entire JSON key into the Service Account JSON field in the Sheet Bridge edit page
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/) and sign in
+2. Create a new project or select an existing one from the top toolbar
+3. Navigate to **APIs & Services → Library**, search for "Google Sheets API", click on it, then click **Enable**
+4. Go to **APIs & Services → Credentials**, click **+ Create Credentials**, and choose **Service Account**
+5. Give the service account a name (e.g., "sheetbridge"), optionally add a description, then click **Create and Continue**
+6. Assign the role **Editor** (or a custom role with sheets permissions) to the service account, then click **Done**
+7. Back on the Credentials page, click on the newly created service account email to open its details
+8. Go to the **Keys** tab, click **Add Key → Create New Key**, choose **JSON**, and click **Create** — the JSON key file will download to your computer
+9. Open your Google Sheet, click the **Share** button in the top-right, paste the `client_email` value from the downloaded JSON (it looks like `name@project.iam.gserviceaccount.com`), give it **Editor** permission, and click **Send**
+10. In WordPress, edit your Sheet Bridge CPT, paste the entire contents of the downloaded JSON file into the **Service Account JSON** field, then save — the individual fields (Client Email, Private Key, etc.) will populate automatically
 
 = Can I use an API Key instead? =
 
