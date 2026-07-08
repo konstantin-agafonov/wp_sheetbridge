@@ -55,14 +55,19 @@ final class SheetBridge_Plugin {
 	}
 
 	private function init(): void {
-		add_action( 'init', array( $this, 'load_includes' ), -100 );
-	}
-
-	public function load_includes(): void {
-		require_once SHEETBRIDGE_PLUGIN_DIR . 'includes/class-sheet-bridge-cpt.php';
 		require_once SHEETBRIDGE_PLUGIN_DIR . 'includes/class-sheet-bridge.php';
 
+		add_action( 'init', array( $this, 'load_admin_includes' ), -100 );
+	}
+
+	public function load_admin_includes(): void {
+		require_once SHEETBRIDGE_PLUGIN_DIR . 'includes/class-sheet-bridge-cpt.php';
+		require_once SHEETBRIDGE_PLUGIN_DIR . 'includes/class-sheet-bridge-admin.php';
+		require_once SHEETBRIDGE_PLUGIN_DIR . 'includes/class-sheet-bridge-assets.php';
+
 		new SheetBridge_CPT();
+		new SheetBridge_Admin();
+		new SheetBridge_Assets();
 	}
 }
 
