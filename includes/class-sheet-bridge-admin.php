@@ -11,7 +11,6 @@ class SheetBridge_Admin {
 		add_action( 'save_post', array( $this, 'save_meta_boxes' ) );
 		add_filter( 'manage_' . SHEETBRIDGE_CPT_SLUG . '_posts_columns', array( $this, 'custom_columns' ) );
 		add_action( 'manage_' . SHEETBRIDGE_CPT_SLUG . '_posts_custom_column', array( $this, 'custom_column_content' ), 10, 2 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 		add_filter( 'plugin_action_links_' . SHEETBRIDGE_PLUGIN_BASENAME, array( $this, 'add_plugin_action_links' ) );
 	}
 
@@ -311,31 +310,7 @@ class SheetBridge_Admin {
 				}
 				break;
 		}
-	}
-
-	public function enqueue_admin_assets( string $hook_suffix ): void {
-		$screen = get_current_screen();
-		if ( ! $screen || SHEETBRIDGE_CPT_SLUG !== $screen->post_type ) {
-			return;
-		}
-
-		wp_enqueue_style(
-			'sheetbridge-admin',
-			SHEETBRIDGE_PLUGIN_URL . 'assets/admin/css/admin.css',
-			array(),
-			SHEETBRIDGE_VERSION
-		);
-
-		wp_enqueue_script(
-			'sheetbridge-admin',
-			SHEETBRIDGE_PLUGIN_URL . 'assets/admin/js/admin.js',
-			array(),
-			SHEETBRIDGE_VERSION,
-			true
-		);
-	}
-
-	public function add_plugin_action_links( array $links ): array {
+	}	public function add_plugin_action_links( array $links ): array {
 		$settings_link = '<a href="' . admin_url( 'edit.php?post_type=' . SHEETBRIDGE_CPT_SLUG ) . '">'
 			. __( 'Manage Bridges', 'sheetbridge' ) . '</a>';
 		array_unshift( $links, $settings_link );
