@@ -5,6 +5,10 @@
 .column-spreadsheet_id {
 	width: auto;
 }
+.column-sheet_name,
+.column-sync_status {
+	width: 100px;
+}
 .sb-copy-id {
 	text-decoration: none;
 	color: inherit;
