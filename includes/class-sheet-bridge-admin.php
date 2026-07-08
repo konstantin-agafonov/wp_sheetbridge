@@ -108,9 +108,6 @@ class SheetBridge_Admin {
 			'sb_spreadsheet_url',
 			'sb_sheet_name',
 			'sb_api_key',
-			'sb_client_email',
-			'sb_private_key_id',
-			'sb_project_id',
 		);
 
 		foreach ( $fields as $field ) {
@@ -138,9 +135,21 @@ class SheetBridge_Admin {
 					update_post_meta( $post_id, '_sb_project_id', sanitize_text_field( $parsed['project_id'] ) );
 				}
 			}
+		} else {
+			// Save individual service-account fields only when the value is not empty
+			// to avoid overwriting JSON-derived values with empty form submissions.
+			if ( isset( $_POST['sb_client_email'] ) && '' !== $_POST['sb_client_email'] ) {
+				update_post_meta( $post_id, '_sb_client_email', sanitize_text_field( wp_unslash( $_POST['sb_client_email'] ) ) );
+			}
+			if ( isset( $_POST['sb_private_key_id'] ) && '' !== $_POST['sb_private_key_id'] ) {
+				update_post_meta( $post_id, '_sb_private_key_id', sanitize_text_field( wp_unslash( $_POST['sb_private_key_id'] ) ) );
+			}
+			if ( isset( $_POST['sb_project_id'] ) && '' !== $_POST['sb_project_id'] ) {
+				update_post_meta( $post_id, '_sb_project_id', sanitize_text_field( wp_unslash( $_POST['sb_project_id'] ) ) );
+			}
 		}
 
-		if ( isset( $_POST['sb_private_key'] ) ) {
+		if ( isset( $_POST['sb_private_key'] ) && '' !== $_POST['sb_private_key'] ) {
 			update_post_meta( $post_id, '_sb_private_key', wp_unslash( $_POST['sb_private_key'] ) );
 		}
 

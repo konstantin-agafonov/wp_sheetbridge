@@ -55,7 +55,7 @@ class SheetBridge {
 			$config['spreadsheet_id'] = $this->extract_id_from_url( $config['spreadsheet_url'] );
 		}
 
-		if ( $config['service_account_json'] && ! $config['client_email'] ) {
+		if ( $config['service_account_json'] && ( ! $config['client_email'] || ! $config['private_key'] || ! $config['private_key_id'] || ! $config['project_id'] ) ) {
 			$parsed = json_decode( $config['service_account_json'], true );
 			if ( is_array( $parsed ) ) {
 				$config['client_email']   = $parsed['client_email'] ?? '';
