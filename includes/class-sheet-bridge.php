@@ -10,6 +10,8 @@ class SheetBridge {
 
 	private array $config;
 
+	private bool $initialized = false;
+
 	private const string GOOGLE_OAUTH_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 
 	private const string GOOGLE_SHEETS_API_BASE = 'https://sheets.googleapis.com/v4/spreadsheets';
@@ -18,7 +20,22 @@ class SheetBridge {
 
 	public function __construct( int $post_id ) {
 		$this->post_id = $post_id;
-		$this->config  = $this->load_config();
+
+		$post = get_post( $post_id );
+		if ( ! $post || SHEETBRIDGE_CPT_SLUG !== $post->post_type ) {
+			error_log( 'SheetBridge: CPT with ID ' . $post_id . ' does not exist or is not a sheet_bridge post type.' );
+			$this->config = array();
+			return;
+		}
+
+		if ( 'publish' !== $post->post_status ) {
+			error_log( 'SheetBridge: CPT with ID ' . $post_id . ' exists but is not published (status: ' . $post->post_status . ').' );
+			$this->config = array();
+			return;
+		}
+
+		$this->config      = $this->load_config();
+		$this->initialized = true;
 	}
 
 	private function load_config(): array {
@@ -59,6 +76,10 @@ class SheetBridge {
 	}
 
 	public function push( $data ): array {
+		if ( ! $this->initialized ) {
+			return $this->result( false, 'SheetBridge instance not initialized. CPT does not exist or is not published.' );
+		}
+
 		$values = $this->normalize_data( $data );
 		if ( empty( $values ) ) {
 			return $this->result( false, 'Empty data provided' );
@@ -103,6 +124,10 @@ class SheetBridge {
 	}
 
 	public function pull(): array {
+		if ( ! $this->initialized ) {
+			return $this->result( false, 'SheetBridge instance not initialized. CPT does not exist or is not published.' );
+		}
+
 		try {
 			$range   = $this->config['sheet_name'] . '!A:ZZ';
 			$response = $this->api_request(
