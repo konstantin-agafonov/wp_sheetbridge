@@ -62,8 +62,10 @@ final class SheetBridge_Plugin {
 
 	public function load_admin_includes(): void {
 		require_once SHEETBRIDGE_PLUGIN_DIR . 'includes/class-sheet-bridge-cpt.php';
+		require_once SHEETBRIDGE_PLUGIN_DIR . 'includes/class-sheet-bridge-admin.php';
 
 		new SheetBridge_CPT();
+		new SheetBridge_Admin();
 	}
 }
 
