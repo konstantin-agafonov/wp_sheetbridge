@@ -12,11 +12,11 @@ class SheetBridge {
 
 	private bool $initialized = false;
 
-	private const string GOOGLE_OAUTH_TOKEN_URL = 'https://oauth2.googleapis.com/token';
+	private const GOOGLE_OAUTH_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 
-	private const string GOOGLE_SHEETS_API_BASE = 'https://sheets.googleapis.com/v4/spreadsheets';
+	private const GOOGLE_SHEETS_API_BASE = 'https://sheets.googleapis.com/v4/spreadsheets';
 
-	private const string SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
+	private const SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
 
 	public function __construct( int $post_id ) {
 		$this->post_id = $post_id;
