@@ -12,6 +12,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+// load_template() uses extract( $args, EXTR_SKIP ) which skips $id (global).
+// Access field vars directly from $args which is in the same scope.
+if ( isset( $args ) && is_array( $args ) ) {
+	$id          = $args['id'] ?? ( $id ?? '' );
+	$name        = $args['name'] ?? ( $name ?? '' );
+	$value       = $args['value'] ?? ( $value ?? '' );
+	$label       = $args['label'] ?? ( $label ?? '' );
+	$description = $args['description'] ?? ( $description ?? '' );
+}
 ?>
 <tr>
 	<th scope="row">
