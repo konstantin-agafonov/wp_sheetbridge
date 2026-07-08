@@ -341,7 +341,7 @@ class SheetBridge_CPT {
 	public function custom_column_content( string $column, int $post_id ): void {
 		switch ( $column ) {
 			case 'id':
-				echo '<a href="#" class="sb-copy-id" data-id="' . esc_attr( $post_id ) . '" style="text-decoration:none;color:inherit;">'
+				echo '<a href="#" class="sb-copy-id" data-id="' . esc_attr( $post_id ) . '" title="Click copies to clipboard" style="text-decoration:none;color:inherit;">'
 					. esc_html( $post_id ) . '</a>';
 				break;
 
